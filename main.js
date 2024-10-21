@@ -13,7 +13,7 @@ function createListItemUI() {
   return li;
 }
 
-function createDoneMarkerUI() {
+function createDoneMarkerUI(task) {
   const checkbox = document.createElement('input');
   checkbox.type = 'checkbox';
   checkbox.checked = task.isChecked;
@@ -21,7 +21,7 @@ function createDoneMarkerUI() {
   return checkbox;
 }
 
-function createTaskTextUI() {
+function createTaskTextUI(task) {
   const span = document.createElement('span');
   span.textContent = task.text;
 }
@@ -51,8 +51,8 @@ function createEditButtonUI() {
 
 function addTaskToDOM(task) {
   const container = createListItemUI();
-  const text = createTaskTextUI();
-  const marker = createDoneMarkerUI();
+  const text = createTaskTextUI(task);
+  const marker = createDoneMarkerUI(task);
   const buttonContainer = createTaskButtonsUI();
   const deleteButton = createDeleteButtonUI();
   const editButton = createEditButtonUI();
