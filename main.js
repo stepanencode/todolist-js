@@ -6,10 +6,10 @@ const form = document.getElementById('todo-form');
 
 function createListItemUI() {
   const li = document.createElement('li');
-  const taskName = document.createElement('div');
-  taskName.className = 'task-name';
+  // const taskName = document.createElement('div');
+  // taskName.className = 'task-name';
 
-  li.appendChild(taskName);
+  // li.appendChild(taskName);
 
   return li;
 }
@@ -44,47 +44,27 @@ function createDeleteButtonUI() {
   return deleteButton;
 }
 
-function createEditButtonUI() {
-  const editButton = document.createElement('button');
-  editButton.className = 'edit';
-  editButton.textContent = 'Edit';
-
-  return editButton;
-}
-
 function addTaskToDOM(task) {
   const container = createListItemUI();
   const text = createTaskTextUI(task);
   const marker = createDoneMarkerUI(task);
   const buttonContainer = createTaskButtonsUI();
   const deleteButton = createDeleteButtonUI();
-  const editButton = createEditButtonUI();
 
   container.appendChild(marker);
   container.appendChild(text);
   container.appendChild(buttonContainer);
 
-  buttonContainer.appendChild(editButton);
   buttonContainer.appendChild(deleteButton);
 
   todoList.appendChild(container);
 
   deleteTaskUI(deleteButton, container);
-  editButtonUI(editButton, text, task);
 }
 
 function deleteTaskUI(deleteButton, container) {
   deleteButton.addEventListener('click', () => {
     container.remove();
-  });
-}
-
-function editButtonUI(editButton, text, task) {
-  editButton.addEventListener('click', () => {
-    const newTaskText = prompt('Edit task:', task.text);
-    if (newTaskText !== null && newTaskText !== '') {
-      text.textContent = newTaskText;
-    }
   });
 }
 
@@ -110,7 +90,7 @@ function addTask(event) {
 
   addTaskToDOM(newTask);
 
-  inputValue = '';
+  // inputValue = '';
 }
 
 form.addEventListener('submit', addTask);
