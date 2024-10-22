@@ -6,10 +6,6 @@ const form = document.getElementById('todo-form');
 
 function createListItemUI() {
   const li = document.createElement('li');
-  // const taskName = document.createElement('div');
-  // taskName.className = 'task-name';
-
-  // li.appendChild(taskName);
 
   return li;
 }
@@ -36,6 +32,13 @@ function createTaskButtonsUI() {
   return taskButtons;
 }
 
+function createListItemContainerUI() {
+  const taskName = document.createElement('div');
+  taskName.className = 'task-name';
+
+  return taskName;
+}
+
 function createDeleteButtonUI() {
   const deleteButton = document.createElement('button');
   deleteButton.className = 'delete';
@@ -46,39 +49,47 @@ function createDeleteButtonUI() {
 
 function addTaskToDOM(task) {
   const container = createListItemUI();
+  const itemContainer = createListItemContainerUI();
   const text = createTaskTextUI(task);
   const marker = createDoneMarkerUI(task);
   const buttonContainer = createTaskButtonsUI();
   const deleteButton = createDeleteButtonUI();
 
-  container.appendChild(marker);
-  container.appendChild(text);
+  container.appendChild(itemContainer);
+  itemContainer.appendChild(marker);
+  itemContainer.appendChild(text);
   container.appendChild(buttonContainer);
-
   buttonContainer.appendChild(deleteButton);
-
   todoList.appendChild(container);
 
-  deleteTaskUI(deleteButton, container);
+  return { deleteButton, container };
 }
 
-function deleteTaskUI(deleteButton, container) {
-  deleteButton.addEventListener('click', () => {
-    container.remove();
-  });
+// function deleteTaskUI(deleteButton, container) {
+//   deleteButton.addEventListener('click', () => {
+//     container.remove();
+//   });
+// }
+
+function handleDeleteTask(container) {
+  container.remove();
+}
+
+function deleteTaskEvent(deleteButton, container) {
+  deleteButton.addEventListener('click', () => handleDeleteTask(container));
 }
 
 function getInputFieldValue() {
   const input = document.getElementById('todo-input');
-  const taskText = input.value;
-
-  if (taskText === '') return;
-  return taskText;
+  const taskText = input.value.trim();
+  return taskText === '' ? null : taskText;
 }
 
 function addTask(event) {
   event.preventDefault();
+
   const inputValue = getInputFieldValue();
+  if (!inputValue) return;
 
   const newTask = {
     text: inputValue,
@@ -88,9 +99,10 @@ function addTask(event) {
 
   tasksList.push(newTask);
 
-  addTaskToDOM(newTask);
+  const { deleteButton, container } = addTaskToDOM(newTask);
+  deleteTaskEvent(deleteButton, container);
 
-  // inputValue = '';
+  form.reset();
 }
 
 form.addEventListener('submit', addTask);
