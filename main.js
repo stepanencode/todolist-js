@@ -60,7 +60,7 @@ function addTaskToDOM(task) {
   const deleteButton = createDeleteButtonUI();
   const editButton = createEditButtonUI();
 
-  container.append(marker);
+  container.appendChild(marker);
   container.appendChild(text);
   container.appendChild(buttonContainer);
 
