@@ -10,13 +10,10 @@
 
 body {
   line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
 }
 
 img,
 picture,
-video,
-canvas,
 svg {
   display: block;
   max-width: 100%;
@@ -49,11 +46,6 @@ ul {
   list-style: none;
   margin: 0;
   padding: 0;
-}
-
-#root,
-#__next {
-  isolation: isolate;
 }
 
 :root {

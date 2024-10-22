@@ -8,6 +8,7 @@ function createListItemUI() {
   const li = document.createElement('li');
   const taskName = document.createElement('div');
   taskName.className = 'task-name';
+
   li.appendChild(taskName);
 
   return li;
@@ -24,6 +25,8 @@ function createDoneMarkerUI(task) {
 function createTaskTextUI(task) {
   const span = document.createElement('span');
   span.textContent = task.text;
+
+  return span;
 }
 
 function createTaskButtonsUI() {
@@ -65,17 +68,24 @@ function addTaskToDOM(task) {
   buttonContainer.appendChild(deleteButton);
 
   todoList.appendChild(container);
+
+  deleteTaskUI(deleteButton, container);
+  editButtonUI(editButton, text, task);
 }
 
-function DeleteTask() {
-  container.remove();
+function deleteTaskUI(deleteButton, container) {
+  deleteButton.addEventListener('click', () => {
+    container.remove();
+  });
 }
 
-function EditTask() {
-  const newTaskText = prompt('Edit task:', span.textContent);
-  if (newTaskText !== null && newTaskText !== '') {
-    span.textContent = newTaskText;
-  }
+function editButtonUI(editButton, text, task) {
+  editButton.addEventListener('click', () => {
+    const newTaskText = prompt('Edit task:', task.text);
+    if (newTaskText !== null && newTaskText !== '') {
+      text.textContent = newTaskText;
+    }
+  });
 }
 
 function getInputFieldValue() {
@@ -86,24 +96,21 @@ function getInputFieldValue() {
   return taskText;
 }
 
-function AddTask(event) {
+function addTask(event) {
   event.preventDefault();
   const inputValue = getInputFieldValue();
 
   const newTask = {
     text: inputValue,
     isChecked: false,
-    id: taskId,
+    id: taskId++,
   };
 
   tasksList.push(newTask);
 
   addTaskToDOM(newTask);
-  console.log(newTask);
 
   inputValue = '';
 }
 
-form.addEventListener('submit', AddTask);
-deleteButton.addEventListener('click', DeleteTask);
-editButton.addEventListener('click', EditTask);
+form.addEventListener('submit', addTask);
