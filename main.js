@@ -1,4 +1,4 @@
-const tasksList = [];
+let tasksList = [];
 let taskId = 1;
 
 const todoList = document.getElementById('todo-list');
@@ -83,20 +83,23 @@ function handleAddTask(event) {
   };
 
   tasksList.push(newTask);
-  console.log('tasksList_delete', tasksList);
+  console.log('tasksList', tasksList);
 
   addTaskToDOM(newTask);
 
   form.reset();
 }
 
-function handleDeleteTask(taskId) {
-  tasksList.splice(
-    tasksList.findIndex((task) => task.id == taskId),
-    1
-  );
-  document.querySelector(`li[data-id='${taskId}']`).remove();
-  console.log('tasksList_delete', tasksList);
+function removeTaskFromList(taskId) {
+  tasksList = tasksList.filter((task) => task.id !== Number(taskId));
+}
+
+function removeTaskFromDOM(taskId) {
+  const taskElement = document.querySelector(`li[data-id='${taskId}']`);
+  console.log('taskElement', taskElement);
+  if (taskElement) {
+    taskElement.remove();
+  }
 }
 
 form.addEventListener('submit', handleAddTask);
@@ -104,6 +107,7 @@ form.addEventListener('submit', handleAddTask);
 todoList.addEventListener('click', (event) => {
   if (event.target.classList.contains('delete')) {
     const taskId = event.target.closest('li').getAttribute('data-id');
-    handleDeleteTask(taskId);
+    removeTaskFromList(taskId);
+    removeTaskFromDOM(taskId);
   }
 });
