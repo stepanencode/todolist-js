@@ -1,0 +1,177 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+body {
+  line-height: 1.5;
+}
+
+img,
+picture,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+ol,
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --font-family-base: Arial, sans-serif;
+  --background-main-color: #f4f4f4;
+  --background-todo: #81c784;
+  --background-button: #388e3c;
+  --button-green-hover: #2e7d32;
+  --button-delete-bgd: #f44336;
+  --button-delete-hover: #d32f2f;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family-base);
+  background-color: var(--background-main-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.todo-container {
+  background-color: var(--background-todo);
+  padding: 20px;
+  border-radius: 8px;
+  width: 700px;
+}
+
+h1 {
+  text-align: center;
+  color: var(--background-main-color);
+  margin-bottom: 20px;
+}
+
+form {
+  margin-bottom: 20px;
+
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 10px;
+}
+
+input[type='text'] {
+  padding: 10px;
+  border: 2px solid var(--background-todo);
+  border-radius: 4px;
+  outline: none;
+}
+
+button {
+  padding: 10px;
+  background-color: var(--background-button);
+  color: var(--background-main-color);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--button-green-hover);
+}
+
+ul {
+  list-style-type: none;
+}
+
+li {
+  background-color: var(--background-main-color);
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.task-name {
+  display: flex;
+  align-items: center;
+}
+
+.task-name input[type='checkbox'] {
+  margin-right: 10px;
+}
+
+.task-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+button.edit {
+  padding: 5px 10px;
+  background-color: var(--background-todo);
+  color: var(--background-main-color);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button.edit:hover {
+  background-color: var(--button-green-hover);
+}
+
+button.delete {
+  padding: 5px 10px;
+  background-color: var(--button-delete-bgd);
+  color: var(--background-main-color);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button.delete:hover {
+  background-color: var(--button-delete-hover);
+}
+
+.task-buttons button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 30px;
+}
