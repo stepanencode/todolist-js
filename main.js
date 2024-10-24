@@ -4,6 +4,7 @@ let taskId = 1;
 const todoList = document.getElementById('todo-list');
 const form = document.getElementById('todo-form');
 
+// create DOM nodes
 function createListItemUI(task) {
   const li = document.createElement('li');
   li.setAttribute('data-id', task.id);
@@ -48,6 +49,7 @@ function createDeleteButtonUI() {
   return deleteButton;
 }
 
+// actions with DOM
 function addTaskToDOM(task) {
   const container = createListItemUI(task);
   const itemContainer = createListItemContainerUI();
@@ -64,50 +66,58 @@ function addTaskToDOM(task) {
   todoList.appendChild(container);
 }
 
+function removeTaskFromDOM(taskId) {
+  const taskElement = document.querySelector(`li[data-id='${taskId}']`);
+  if (taskElement) {
+    taskElement.remove();
+  }
+}
+
+// actions with state
 function getInputFieldValue() {
   const input = document.getElementById('todo-input');
   const taskText = input.value.trim();
+
   return taskText === '' ? null : taskText;
 }
 
-function handleAddTask(event) {
-  event.preventDefault();
-
-  const inputValue = getInputFieldValue();
-  if (!inputValue) return;
-
+function addTaskToList(taskText) {
   const newTask = {
-    text: inputValue,
+    text: taskText,
     isChecked: false,
     id: taskId++,
   };
-
   tasksList.push(newTask);
-  console.log('tasksList', tasksList);
 
-  addTaskToDOM(newTask);
-
-  form.reset();
+  return newTask;
 }
 
 function removeTaskFromList(taskId) {
   tasksList = tasksList.filter((task) => task.id !== Number(taskId));
 }
 
-function removeTaskFromDOM(taskId) {
-  const taskElement = document.querySelector(`li[data-id='${taskId}']`);
-  console.log('taskElement', taskElement);
-  if (taskElement) {
-    taskElement.remove();
-  }
+// handle events
+function handleAddTask(event) {
+  event.preventDefault();
+
+  const taskText = getInputFieldValue();
+  if (!taskText) return;
+
+  const newTask = addTaskToList(taskText);
+  addTaskToDOM(newTask);
+
+  form.reset();
 }
 
-form.addEventListener('submit', handleAddTask);
-
-todoList.addEventListener('click', (event) => {
+function handleRemoveTask(event) {
   if (event.target.classList.contains('delete')) {
     const taskId = event.target.closest('li').getAttribute('data-id');
+
     removeTaskFromList(taskId);
     removeTaskFromDOM(taskId);
   }
-});
+}
+
+// add event listeners
+form.addEventListener('submit', handleAddTask);
+todoList.addEventListener('click', handleRemoveTask);
