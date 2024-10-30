@@ -50,7 +50,6 @@ function createTaskElement(task) {
   const buttonContainer = createTaskButtonsUI();
   const deleteButton = createDeleteButtonUI();
 
-  // Сборка элементов задачи
   itemContainer.appendChild(marker);
   itemContainer.appendChild(text);
   container.appendChild(itemContainer);
