@@ -50,6 +50,10 @@ function createTaskElement(task) {
   const buttonContainer = createTaskButtonsUI();
   const deleteButton = createDeleteButtonUI();
 
+  if (task.isChecked) {
+    text.classList.add('completed');
+  }
+
   itemContainer.appendChild(marker);
   itemContainer.appendChild(text);
   container.appendChild(itemContainer);
@@ -88,6 +92,25 @@ function removeTaskFromList(taskId) {
   tasksList = tasksList.filter((task) => task.id !== Number(taskId));
 }
 
+async function fetchTasksFromAPI() {
+  try {
+    const response = await fetch('https://jsonplaceholder.typicode.com/todos');
+    if (!response.ok) throw new Error(`Error: ${response.status}`);
+
+    const data = await response.json();
+
+    tasksList = data.map((item) => ({
+      text: item.title,
+      isChecked: item.completed,
+      id: item.id,
+    }));
+
+    renderList();
+  } catch (error) {
+    console.error('Fetch error:', error);
+  }
+}
+
 function handleAddTask(event) {
   event.preventDefault();
   const taskText = getInputFieldValue();
@@ -108,3 +131,5 @@ function handleRemoveTask(event) {
 
 form.addEventListener('submit', handleAddTask);
 todoList.addEventListener('click', handleRemoveTask);
+
+fetchTasksFromAPI();

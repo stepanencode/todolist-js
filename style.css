@@ -175,3 +175,8 @@ button.delete:hover {
   justify-content: center;
   padding: 5px 30px;
 }
+
+.completed {
+  text-decoration: line-through;
+  color: gray;
+}
