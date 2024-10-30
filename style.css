@@ -88,7 +88,6 @@ h1 {
 
 form {
   margin-bottom: 20px;
-
   display: grid;
   grid-template-columns: 3fr 1fr;
   gap: 10px;
@@ -116,6 +115,8 @@ button:hover {
 
 ul {
   list-style-type: none;
+  max-height: 200px;
+  overflow-y: auto;
 }
 
 li {
