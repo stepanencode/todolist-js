@@ -1,4 +1,4 @@
-let tasksList = [];
+let tasksList = new Map();
 let taskId = 1;
 
 const todoList = document.getElementById('todo-list');
@@ -92,19 +92,30 @@ function removeTaskFromList(taskId) {
   tasksList = tasksList.filter((task) => task.id !== Number(taskId));
 }
 
-async function fetchTasksFromAPI() {
+function convertArrayToMap(dataArray) {
+  return new Map(dataArray.map((item) => [item.id, item]));
+}
+
+async function fetchTasks() {
+  const response = await fetch('https://jsonplaceholder.typicode.com/todos');
+  if (!response.ok) throw new Error(`Error: ${response.status}`);
+  return await response.json();
+}
+
+function processFetchedTasks(data) {
+  tasksList = data.map((item) => ({
+    text: item.title,
+    isChecked: item.completed,
+    id: item.id,
+  }));
+}
+
+async function loadTasks() {
   try {
-    const response = await fetch('https://jsonplaceholder.typicode.com/todos');
-    if (!response.ok) throw new Error(`Error: ${response.status}`);
-
-    const data = await response.json();
-
-    tasksList = data.map((item) => ({
-      text: item.title,
-      isChecked: item.completed,
-      id: item.id,
-    }));
-
+    const data = await fetchTasks();
+    const newDataMap = convertArrayToMap(data);
+    console.log('newDataMap', newDataMap);
+    processFetchedTasks(newDataMap);
     renderList();
   } catch (error) {
     console.error('Fetch error:', error);
@@ -132,4 +143,4 @@ function handleRemoveTask(event) {
 form.addEventListener('submit', handleAddTask);
 todoList.addEventListener('click', handleRemoveTask);
 
-fetchTasksFromAPI();
+loadTasks();
