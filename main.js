@@ -1,8 +1,12 @@
 let tasksList = new Map();
 let taskId = 1;
+let currentFilter = 'all';
 
 const todoList = document.getElementById('todo-list');
 const form = document.getElementById('todo-form');
+const allTasksButton = document.getElementById('all-tasks');
+const completedTasksButton = document.getElementById('completed-tasks');
+const incompletedTasksButton = document.getElementById('incompleted-tasks');
 
 function createListItemUI(task) {
   const li = document.createElement('li');
@@ -67,9 +71,20 @@ function renderList() {
   todoList.innerHTML = '';
 
   tasksList.forEach((task) => {
-    const taskElement = createTaskElement(task);
-    todoList.appendChild(taskElement);
+    if (
+      currentFilter === 'all' ||
+      (currentFilter === 'completed' && task.isChecked) ||
+      (currentFilter === 'incompleted' && !task.isChecked)
+    ) {
+      const taskElement = createTaskElement(task);
+      todoList.appendChild(taskElement);
+    }
   });
+}
+
+function filterTasks(filterType) {
+  currentFilter = filterType;
+  renderList();
 }
 
 function getInputFieldValue() {
@@ -142,7 +157,22 @@ function handleRemoveTask(event) {
   }
 }
 
+function handleAllTasksFilter() {
+  filterTasks('all');
+}
+
+function handleCompletedTasksFilter() {
+  filterTasks('completed');
+}
+
+function handleIncompletedTasksFilter() {
+  filterTasks('incompleted');
+}
+
 form.addEventListener('submit', handleAddTask);
 todoList.addEventListener('click', handleRemoveTask);
+allTasksButton.addEventListener('click', handleAllTasksFilter);
+completedTasksButton.addEventListener('click', handleCompletedTasksFilter);
+incompletedTasksButton.addEventListener('click', handleIncompletedTasksFilter);
 
 loadTasks();
