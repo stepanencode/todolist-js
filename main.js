@@ -1,4 +1,5 @@
-let tasksList = [];
+// let tasksList = [];
+let tasksList = new Map();
 let taskId = 1;
 
 const todoList = document.getElementById('todo-list');
@@ -68,6 +69,7 @@ function renderList() {
 
   tasksList.forEach((task) => {
     const taskElement = createTaskElement(task);
+    // console.log('task', task);
     todoList.appendChild(taskElement);
   });
 }
@@ -78,18 +80,28 @@ function getInputFieldValue() {
   return taskText === '' ? null : taskText;
 }
 
+// function addTaskToList(taskText) {
+//   const newTask = {
+//     text: taskText,
+//     isChecked: false,
+//     id: taskId++,
+//   };
+//   tasksList.push(newTask);
+//   return newTask;
+// }
+
 function addTaskToList(taskText) {
   const newTask = {
     text: taskText,
     isChecked: false,
     id: taskId++,
   };
-  tasksList.push(newTask);
+  tasksList.set(newTask.id, newTask);
   return newTask;
 }
 
 function removeTaskFromList(taskId) {
-  tasksList = tasksList.filter((task) => task.id !== Number(taskId));
+  tasksList.delete(Number(taskId));
 }
 
 function convertArrayToMap(dataArray) {
@@ -102,20 +114,32 @@ async function fetchTasks() {
   return await response.json();
 }
 
+// function processFetchedTasks(data) {
+//   tasksList = data.map((item) => ({
+//     text: item.title,
+//     isChecked: item.completed,
+//     id: item.id,
+//   }));
+// }
+
 function processFetchedTasks(data) {
-  tasksList = data.map((item) => ({
-    text: item.title,
-    isChecked: item.completed,
-    id: item.id,
-  }));
+  data.forEach((item) => {
+    const task = {
+      text: item.title,
+      isChecked: item.completed,
+      id: item.id,
+    };
+    tasksList.set(task.id, task);
+  });
+  console.log('processFetchedTasks tasksList', tasksList);
 }
 
 async function loadTasks() {
   try {
     const data = await fetchTasks();
-    // const newDataMap = convertArrayToMap(data);
+    const newDataMap = convertArrayToMap(data);
     // console.log('newDataMap', newDataMap);
-    processFetchedTasks(data);
+    processFetchedTasks(newDataMap);
     renderList();
   } catch (error) {
     console.error('Fetch error:', error);

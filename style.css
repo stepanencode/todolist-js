@@ -181,3 +181,23 @@ button.delete:hover {
   text-decoration: line-through;
   color: gray;
 }
+
+.filter-buttons {
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.filter-btn {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+}
+
+.filter-btn.active {
+  background-color: #2e7d32;
+}
