@@ -55,14 +55,22 @@ function handleFilterChange(filterType) {
   renderList(tasksList, currentFilter, todoList);
 }
 
+function showAllTasks() {
+  handleFilterChange(FILTERS.ALL);
+}
+
+function showCompletedTasks() {
+  handleFilterChange(FILTERS.COMPLETED);
+}
+
+function showIncompletedTasks() {
+  handleFilterChange(FILTERS.INCOMPLETED);
+}
+
 form.addEventListener('submit', handleAddTask);
 todoList.addEventListener('click', handleRemoveTask);
-allTasksButton.addEventListener('click', () => handleFilterChange(FILTERS.ALL));
-completedTasksButton.addEventListener('click', () =>
-  handleFilterChange(FILTERS.COMPLETED)
-);
-incompletedTasksButton.addEventListener('click', () =>
-  handleFilterChange(FILTERS.INCOMPLETED)
-);
+allTasksButton.addEventListener('click', showAllTasks);
+completedTasksButton.addEventListener('click', showCompletedTasks);
+incompletedTasksButton.addEventListener('click', showIncompletedTasks);
 
 loadTasks();
