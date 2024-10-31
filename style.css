@@ -198,7 +198,7 @@ button.delete:hover {
   cursor: pointer;
 }
 
-.filter-btn.active {
+.active {
   background-color: #2e7d32;
 }
 

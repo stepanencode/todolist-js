@@ -19,6 +19,7 @@ const form = document.getElementById('todo-form');
 const allTasksButton = document.getElementById('all-tasks');
 const completedTasksButton = document.getElementById('completed-tasks');
 const incompletedTasksButton = document.getElementById('incompleted-tasks');
+const searchInput = document.getElementById('search-input');
 
 function loadTasks() {
   fetchTasks()
@@ -26,6 +27,7 @@ function loadTasks() {
       const newDataMap = convertArrayToMap(data);
       processFetchedTasks(newDataMap, tasksList);
       renderList(tasksList, currentFilter, todoList);
+      updateActiveFilterButton();
     })
     .catch((error) => {
       console.error('Fetch error:', error);
@@ -53,6 +55,25 @@ function handleRemoveTask(event) {
 function handleFilterChange(filterType) {
   currentFilter = filterType;
   renderList(tasksList, currentFilter, todoList);
+  updateActiveFilterButton();
+}
+
+function updateActiveFilterButton() {
+  allTasksButton.classList.remove('active');
+  completedTasksButton.classList.remove('active');
+  incompletedTasksButton.classList.remove('active');
+
+  switch (currentFilter) {
+    case FILTERS.ALL:
+      allTasksButton.classList.add('active');
+      break;
+    case FILTERS.COMPLETED:
+      completedTasksButton.classList.add('active');
+      break;
+    case FILTERS.INCOMPLETED:
+      incompletedTasksButton.classList.add('active');
+      break;
+  }
 }
 
 function showAllTasks() {
@@ -67,10 +88,24 @@ function showIncompletedTasks() {
   handleFilterChange(FILTERS.INCOMPLETED);
 }
 
+function handleSearch() {
+  const searchQuery = searchInput.value.toLowerCase();
+  const filteredTasks = new Map();
+
+  for (const [id, task] of tasksList) {
+    if (task.text.toLowerCase().includes(searchQuery)) {
+      filteredTasks.set(id, task);
+    }
+  }
+
+  renderList(filteredTasks, currentFilter, todoList);
+}
+
 form.addEventListener('submit', handleAddTask);
 todoList.addEventListener('click', handleRemoveTask);
 allTasksButton.addEventListener('click', showAllTasks);
 completedTasksButton.addEventListener('click', showCompletedTasks);
 incompletedTasksButton.addEventListener('click', showIncompletedTasks);
+searchInput.addEventListener('input', handleSearch);
 
 loadTasks();
