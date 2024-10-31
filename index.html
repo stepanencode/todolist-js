@@ -19,20 +19,29 @@
         />
         <button type="submit">Submit</button>
       </form>
-      <div class="filter-buttons">
-        <button id="all-tasks" class="filter-btn" data-filter="all">
-          All Tasks
-        </button>
-        <button id="completed-tasks" class="filter-btn" data-filter="completed">
-          Completed Tasks
-        </button>
-        <button
-          id="incompleted-tasks"
-          class="filter-btn"
-          data-filter="incompleted"
-        >
-          Incompleted Tasks
-        </button>
+      <div class="buttons-container">
+        <div class="search-container">
+          <input type="text" id="search-input" placeholder="Search tasks..." />
+        </div>
+        <div class="filter-buttons">
+          <button id="all-tasks" class="filter-btn" data-filter="all">
+            All Tasks
+          </button>
+          <button
+            id="completed-tasks"
+            class="filter-btn"
+            data-filter="completed"
+          >
+            Completed Tasks
+          </button>
+          <button
+            id="incompleted-tasks"
+            class="filter-btn"
+            data-filter="incompleted"
+          >
+            Incompleted Tasks
+          </button>
+        </div>
       </div>
       <ul id="todo-list"></ul>
     </div>
