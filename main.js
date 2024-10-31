@@ -1,4 +1,3 @@
-// let tasksList = [];
 let tasksList = new Map();
 let taskId = 1;
 
@@ -69,7 +68,6 @@ function renderList() {
 
   tasksList.forEach((task) => {
     const taskElement = createTaskElement(task);
-    // console.log('task', task);
     todoList.appendChild(taskElement);
   });
 }
@@ -79,16 +77,6 @@ function getInputFieldValue() {
   const taskText = input.value.trim();
   return taskText === '' ? null : taskText;
 }
-
-// function addTaskToList(taskText) {
-//   const newTask = {
-//     text: taskText,
-//     isChecked: false,
-//     id: taskId++,
-//   };
-//   tasksList.push(newTask);
-//   return newTask;
-// }
 
 function addTaskToList(taskText) {
   const newTask = {
@@ -114,14 +102,6 @@ async function fetchTasks() {
   return await response.json();
 }
 
-// function processFetchedTasks(data) {
-//   tasksList = data.map((item) => ({
-//     text: item.title,
-//     isChecked: item.completed,
-//     id: item.id,
-//   }));
-// }
-
 function processFetchedTasks(data) {
   data.forEach((item) => {
     const task = {
@@ -131,14 +111,12 @@ function processFetchedTasks(data) {
     };
     tasksList.set(task.id, task);
   });
-  console.log('processFetchedTasks tasksList', tasksList);
 }
 
 async function loadTasks() {
   try {
     const data = await fetchTasks();
     const newDataMap = convertArrayToMap(data);
-    // console.log('newDataMap', newDataMap);
     processFetchedTasks(newDataMap);
     renderList();
   } catch (error) {
