@@ -1,4 +1,4 @@
-let tasksList = new Map();
+let tasksList = [];
 let taskId = 1;
 
 const todoList = document.getElementById('todo-list');
@@ -113,9 +113,9 @@ function processFetchedTasks(data) {
 async function loadTasks() {
   try {
     const data = await fetchTasks();
-    const newDataMap = convertArrayToMap(data);
-    console.log('newDataMap', newDataMap);
-    processFetchedTasks(newDataMap);
+    // const newDataMap = convertArrayToMap(data);
+    // console.log('newDataMap', newDataMap);
+    processFetchedTasks(data);
     renderList();
   } catch (error) {
     console.error('Fetch error:', error);
